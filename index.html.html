@@ -1,0 +1,877 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pine Connector Naked Server Report</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                padding: 20px;
+                background-color: #f5f5f5;
+                color: #333;
+            }
+            .container {
+                max-width: 1400px;
+                margin: 0 auto;
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                overflow: hidden;
+            }
+            .header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 30px;
+                text-align: center;
+            }
+            .header h1 {
+                margin: 0;
+                font-size: 2.5em;
+                font-weight: 300;
+            }
+            .header p {
+                margin: 10px 0 0 0;
+                font-size: 1.2em;
+                opacity: 0.9;
+            }
+            .summary {
+                padding: 30px;
+                background: #f8f9fa;
+                border-bottom: 1px solid #e9ecef;
+            }
+            .summary-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+            .summary-card {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                text-align: center;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .summary-card h3 {
+                margin: 0 0 10px 0;
+                color: #667eea;
+                font-size: 2em;
+            }
+            .summary-card p {
+                margin: 0;
+                color: #666;
+                font-size: 1.1em;
+            }
+            .strategies {
+                padding: 30px;
+            }
+            .strategy {
+                margin-bottom: 40px;
+                border: 1px solid #e9ecef;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            .strategy-header {
+                background: #667eea;
+                color: white;
+                padding: 20px;
+                font-size: 1.5em;
+                font-weight: 600;
+            }
+            .strategy-content {
+                padding: 25px;
+            }
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+                margin-bottom: 25px;
+            }
+            .stat-card {
+                background: #f8f9fa;
+                padding: 20px;
+                border-radius: 6px;
+                border-left: 4px solid #667eea;
+            }
+            .stat-card h4 {
+                margin: 0 0 10px 0;
+                color: #333;
+                font-size: 1.1em;
+            }
+            .stat-card .value {
+                font-size: 1.8em;
+                font-weight: bold;
+                color: #667eea;
+            }
+            .symbols-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+                font-size: 0.9em;
+            }
+            .symbols-table th,
+            .symbols-table td {
+                padding: 12px 8px;
+                text-align: left;
+                border-bottom: 1px solid #e9ecef;
+            }
+            .symbols-table th {
+                background: #f8f9fa;
+                font-weight: 600;
+                color: #333;
+                position: sticky;
+                top: 0;
+            }
+            .symbols-table tr:hover {
+                background: #f8f9fa;
+            }
+            .symbols-table .long {
+                color: #28a745;
+                font-weight: bold;
+            }
+            .symbols-table .short {
+                color: #dc3545;
+                font-weight: bold;
+            }
+            .symbols-table .total {
+                color: #667eea;
+                font-weight: bold;
+            }
+            .footer {
+                background: #333;
+                color: white;
+                padding: 20px;
+                text-align: center;
+                font-size: 0.9em;
+            }
+            .section-title {
+                color: #667eea;
+                border-bottom: 2px solid #667eea;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+            }
+            .clean-note {
+                background: #d4edda;
+                padding: 15px;
+                border-radius: 6px;
+                margin-bottom: 20px;
+                border-left: 4px solid #28a745;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Pine Connector Naked Server Report</h1>
+                <p>Analysis</p>
+                <p>Report Period: 18th September to 25th September 2025</p>
+                <p>Generated on September 26, 2025 at 03:29 PM</p>
+            </div>
+            
+            <div class="summary">
+                
+                <h2>Positions Summary</h2>
+                <div class="summary-grid">
+    
+                    <div class="summary-card">
+                        <h3>5</h3>
+                        <p>Active Strategies</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>2700</h3>
+                        <p>Total Positions</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>1358</h3>
+                        <p>Long Positions (BUY)</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>1342</h3>
+                        <p>Short Positions (SELL)</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>23</h3>
+                        <p>Valid Symbols</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="strategies">
+                <h2>Strategy Positions Details</h2>
+    
+                <div class="strategy">
+                    <div class="strategy-header">
+                        Strategy A (Account: 590890129)
+                    </div>
+                    <div class="strategy-content">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h4>Total Positions</h4>
+                                <div class="value">824</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Long Positions (BUY)</h4>
+                                <div class="value">412</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Short Positions (SELL)</h4>
+                                <div class="value">412</div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="section-title">Symbol-wise Positions Breakdown</h3>
+                        <table class="symbols-table">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Long Positions (BUY)</th>
+                                    <th>Short Positions (SELL)</th>
+                                    <th>Total Positions</th>
+                                    <th>Long %</th>
+                                    <th>Short %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+        
+                                    <tr>
+                                        <td><strong>BITCOIN</strong></td>
+                                        <td class="long">56</td>
+                                        <td class="short">60</td>
+                                        <td class="total">116</td>
+                                        <td>48.3%</td>
+                                        <td>51.7%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>CHFJPY</strong></td>
+                                        <td class="long">61</td>
+                                        <td class="short">62</td>
+                                        <td class="total">123</td>
+                                        <td>49.6%</td>
+                                        <td>50.4%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>EURJPY</strong></td>
+                                        <td class="long">61</td>
+                                        <td class="short">59</td>
+                                        <td class="total">120</td>
+                                        <td>50.8%</td>
+                                        <td>49.2%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>EURUSD</strong></td>
+                                        <td class="long">49</td>
+                                        <td class="short">46</td>
+                                        <td class="total">95</td>
+                                        <td>51.6%</td>
+                                        <td>48.4%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>GBPUSD</strong></td>
+                                        <td class="long">51</td>
+                                        <td class="short">54</td>
+                                        <td class="total">105</td>
+                                        <td>48.6%</td>
+                                        <td>51.4%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>GOLD</strong></td>
+                                        <td class="long">47</td>
+                                        <td class="short">46</td>
+                                        <td class="total">93</td>
+                                        <td>50.5%</td>
+                                        <td>49.5%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>USDCHF</strong></td>
+                                        <td class="long">47</td>
+                                        <td class="short">49</td>
+                                        <td class="total">96</td>
+                                        <td>49.0%</td>
+                                        <td>51.0%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>USDJPY</strong></td>
+                                        <td class="long">40</td>
+                                        <td class="short">36</td>
+                                        <td class="total">76</td>
+                                        <td>52.6%</td>
+                                        <td>47.4%</td>
+                                    </tr>
+                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        
+                <div class="strategy">
+                    <div class="strategy-header">
+                        Strategy C (Account: 590892313)
+                    </div>
+                    <div class="strategy-content">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h4>Total Positions</h4>
+                                <div class="value">413</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Long Positions (BUY)</h4>
+                                <div class="value">213</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Short Positions (SELL)</h4>
+                                <div class="value">200</div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="section-title">Symbol-wise Positions Breakdown</h3>
+                        <table class="symbols-table">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Long Positions (BUY)</th>
+                                    <th>Short Positions (SELL)</th>
+                                    <th>Total Positions</th>
+                                    <th>Long %</th>
+                                    <th>Short %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+        
+                                    <tr>
+                                        <td><strong>CHFJPY</strong></td>
+                                        <td class="long">20</td>
+                                        <td class="short">16</td>
+                                        <td class="total">36</td>
+                                        <td>55.6%</td>
+                                        <td>44.4%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>EURAUD</strong></td>
+                                        <td class="long">37</td>
+                                        <td class="short">34</td>
+                                        <td class="total">71</td>
+                                        <td>52.1%</td>
+                                        <td>47.9%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>EURJPY</strong></td>
+                                        <td class="long">23</td>
+                                        <td class="short">18</td>
+                                        <td class="total">41</td>
+                                        <td>56.1%</td>
+                                        <td>43.9%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>EURUSD</strong></td>
+                                        <td class="long">24</td>
+                                        <td class="short">27</td>
+                                        <td class="total">51</td>
+                                        <td>47.1%</td>
+                                        <td>52.9%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>GBPJPY</strong></td>
+                                        <td class="long">20</td>
+                                        <td class="short">16</td>
+                                        <td class="total">36</td>
+                                        <td>55.6%</td>
+                                        <td>44.4%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>GBPUSD</strong></td>
+                                        <td class="long">24</td>
+                                        <td class="short">27</td>
+                                        <td class="total">51</td>
+                                        <td>47.1%</td>
+                                        <td>52.9%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>GOLD</strong></td>
+                                        <td class="long">33</td>
+                                        <td class="short">33</td>
+                                        <td class="total">66</td>
+                                        <td>50.0%</td>
+                                        <td>50.0%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>USDJPY</strong></td>
+                                        <td class="long">32</td>
+                                        <td class="short">29</td>
+                                        <td class="total">61</td>
+                                        <td>52.5%</td>
+                                        <td>47.5%</td>
+                                    </tr>
+                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        
+                <div class="strategy">
+                    <div class="strategy-header">
+                        Strategy C2 (Account: 590892321)
+                    </div>
+                    <div class="strategy-content">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h4>Total Positions</h4>
+                                <div class="value">381</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Long Positions (BUY)</h4>
+                                <div class="value">192</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Short Positions (SELL)</h4>
+                                <div class="value">189</div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="section-title">Symbol-wise Positions Breakdown</h3>
+                        <table class="symbols-table">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Long Positions (BUY)</th>
+                                    <th>Short Positions (SELL)</th>
+                                    <th>Total Positions</th>
+                                    <th>Long %</th>
+                                    <th>Short %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+        
+                                    <tr>
+                                        <td><strong>BITCOIN</strong></td>
+                                        <td class="long">28</td>
+                                        <td class="short">28</td>
+                                        <td class="total">56</td>
+                                        <td>50.0%</td>
+                                        <td>50.0%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>CHFJPY</strong></td>
+                                        <td class="long">22</td>
+                                        <td class="short">19</td>
+                                        <td class="total">41</td>
+                                        <td>53.7%</td>
+                                        <td>46.3%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>EURJPY</strong></td>
+                                        <td class="long">37</td>
+                                        <td class="short">34</td>
+                                        <td class="total">71</td>
+                                        <td>52.1%</td>
+                                        <td>47.9%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>EURUSD</strong></td>
+                                        <td class="long">24</td>
+                                        <td class="short">27</td>
+                                        <td class="total">51</td>
+                                        <td>47.1%</td>
+                                        <td>52.9%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>GBPAUD</strong></td>
+                                        <td class="long">25</td>
+                                        <td class="short">26</td>
+                                        <td class="total">51</td>
+                                        <td>49.0%</td>
+                                        <td>51.0%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>GBPJPY</strong></td>
+                                        <td class="long">21</td>
+                                        <td class="short">20</td>
+                                        <td class="total">41</td>
+                                        <td>51.2%</td>
+                                        <td>48.8%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>GBPUSD</strong></td>
+                                        <td class="long">24</td>
+                                        <td class="short">26</td>
+                                        <td class="total">50</td>
+                                        <td>48.0%</td>
+                                        <td>52.0%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>USDCHF</strong></td>
+                                        <td class="long">11</td>
+                                        <td class="short">9</td>
+                                        <td class="total">20</td>
+                                        <td>55.0%</td>
+                                        <td>45.0%</td>
+                                    </tr>
+                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        
+                <div class="strategy">
+                    <div class="strategy-header">
+                        Strategy H (Account: 590892315)
+                    </div>
+                    <div class="strategy-content">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h4>Total Positions</h4>
+                                <div class="value">542</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Long Positions (BUY)</h4>
+                                <div class="value">268</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Short Positions (SELL)</h4>
+                                <div class="value">274</div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="section-title">Symbol-wise Positions Breakdown</h3>
+                        <table class="symbols-table">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Long Positions (BUY)</th>
+                                    <th>Short Positions (SELL)</th>
+                                    <th>Total Positions</th>
+                                    <th>Long %</th>
+                                    <th>Short %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+        
+                                    <tr>
+                                        <td><strong>AUDJPY</strong></td>
+                                        <td class="long">16</td>
+                                        <td class="short">20</td>
+                                        <td class="total">36</td>
+                                        <td>44.4%</td>
+                                        <td>55.6%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>AUDUSD</strong></td>
+                                        <td class="long">10</td>
+                                        <td class="short">11</td>
+                                        <td class="total">21</td>
+                                        <td>47.6%</td>
+                                        <td>52.4%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>BITCOIN</strong></td>
+                                        <td class="long">15</td>
+                                        <td class="short">15</td>
+                                        <td class="total">30</td>
+                                        <td>50.0%</td>
+                                        <td>50.0%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>CADCHF</strong></td>
+                                        <td class="long">22</td>
+                                        <td class="short">24</td>
+                                        <td class="total">46</td>
+                                        <td>47.8%</td>
+                                        <td>52.2%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>CHFJPY</strong></td>
+                                        <td class="long">20</td>
+                                        <td class="short">20</td>
+                                        <td class="total">40</td>
+                                        <td>50.0%</td>
+                                        <td>50.0%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>EURCAD</strong></td>
+                                        <td class="long">25</td>
+                                        <td class="short">25</td>
+                                        <td class="total">50</td>
+                                        <td>50.0%</td>
+                                        <td>50.0%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>EURGBP</strong></td>
+                                        <td class="long">2</td>
+                                        <td class="short">4</td>
+                                        <td class="total">6</td>
+                                        <td>33.3%</td>
+                                        <td>66.7%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>EURJPY</strong></td>
+                                        <td class="long">15</td>
+                                        <td class="short">15</td>
+                                        <td class="total">30</td>
+                                        <td>50.0%</td>
+                                        <td>50.0%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>EURUSD</strong></td>
+                                        <td class="long">20</td>
+                                        <td class="short">20</td>
+                                        <td class="total">40</td>
+                                        <td>50.0%</td>
+                                        <td>50.0%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>GBPJPY</strong></td>
+                                        <td class="long">17</td>
+                                        <td class="short">14</td>
+                                        <td class="total">31</td>
+                                        <td>54.8%</td>
+                                        <td>45.2%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>GBPNZD</strong></td>
+                                        <td class="long">28</td>
+                                        <td class="short">23</td>
+                                        <td class="total">51</td>
+                                        <td>54.9%</td>
+                                        <td>45.1%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>GBPUSD</strong></td>
+                                        <td class="long">17</td>
+                                        <td class="short">18</td>
+                                        <td class="total">35</td>
+                                        <td>48.6%</td>
+                                        <td>51.4%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>GOLD</strong></td>
+                                        <td class="long">14</td>
+                                        <td class="short">16</td>
+                                        <td class="total">30</td>
+                                        <td>46.7%</td>
+                                        <td>53.3%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>NZDJPY</strong></td>
+                                        <td class="long">14</td>
+                                        <td class="short">16</td>
+                                        <td class="total">30</td>
+                                        <td>46.7%</td>
+                                        <td>53.3%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>NZDUSD</strong></td>
+                                        <td class="long">17</td>
+                                        <td class="short">19</td>
+                                        <td class="total">36</td>
+                                        <td>47.2%</td>
+                                        <td>52.8%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>USDJPY</strong></td>
+                                        <td class="long">16</td>
+                                        <td class="short">14</td>
+                                        <td class="total">30</td>
+                                        <td>53.3%</td>
+                                        <td>46.7%</td>
+                                    </tr>
+                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        
+                <div class="strategy">
+                    <div class="strategy-header">
+                        Strategy V2 (Account: 590892323)
+                    </div>
+                    <div class="strategy-content">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h4>Total Positions</h4>
+                                <div class="value">540</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Long Positions (BUY)</h4>
+                                <div class="value">273</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Short Positions (SELL)</h4>
+                                <div class="value">267</div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="section-title">Symbol-wise Positions Breakdown</h3>
+                        <table class="symbols-table">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Long Positions (BUY)</th>
+                                    <th>Short Positions (SELL)</th>
+                                    <th>Total Positions</th>
+                                    <th>Long %</th>
+                                    <th>Short %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+        
+                                    <tr>
+                                        <td><strong>#Japan225</strong></td>
+                                        <td class="long">16</td>
+                                        <td class="short">14</td>
+                                        <td class="total">30</td>
+                                        <td>53.3%</td>
+                                        <td>46.7%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>#USSPX500</strong></td>
+                                        <td class="long">7</td>
+                                        <td class="short">8</td>
+                                        <td class="total">15</td>
+                                        <td>46.7%</td>
+                                        <td>53.3%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>BITCOIN</strong></td>
+                                        <td class="long">35</td>
+                                        <td class="short">35</td>
+                                        <td class="total">70</td>
+                                        <td>50.0%</td>
+                                        <td>50.0%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>BRENT</strong></td>
+                                        <td class="long">27</td>
+                                        <td class="short">26</td>
+                                        <td class="total">53</td>
+                                        <td>50.9%</td>
+                                        <td>49.1%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>EURAUD</strong></td>
+                                        <td class="long">21</td>
+                                        <td class="short">19</td>
+                                        <td class="total">40</td>
+                                        <td>52.5%</td>
+                                        <td>47.5%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>EURJPY</strong></td>
+                                        <td class="long">19</td>
+                                        <td class="short">16</td>
+                                        <td class="total">35</td>
+                                        <td>54.3%</td>
+                                        <td>45.7%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>EURUSD</strong></td>
+                                        <td class="long">30</td>
+                                        <td class="short">35</td>
+                                        <td class="total">65</td>
+                                        <td>46.2%</td>
+                                        <td>53.8%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>GBPJPY</strong></td>
+                                        <td class="long">21</td>
+                                        <td class="short">19</td>
+                                        <td class="total">40</td>
+                                        <td>52.5%</td>
+                                        <td>47.5%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>GBPUSD</strong></td>
+                                        <td class="long">30</td>
+                                        <td class="short">35</td>
+                                        <td class="total">65</td>
+                                        <td>46.2%</td>
+                                        <td>53.8%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>SILVER</strong></td>
+                                        <td class="long">7</td>
+                                        <td class="short">4</td>
+                                        <td class="total">11</td>
+                                        <td>63.6%</td>
+                                        <td>36.4%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>USDCHF</strong></td>
+                                        <td class="long">30</td>
+                                        <td class="short">30</td>
+                                        <td class="total">60</td>
+                                        <td>50.0%</td>
+                                        <td>50.0%</td>
+                                    </tr>
+                
+                                    <tr>
+                                        <td><strong>USDJPY</strong></td>
+                                        <td class="long">30</td>
+                                        <td class="short">26</td>
+                                        <td class="total">56</td>
+                                        <td>53.6%</td>
+                                        <td>46.4%</td>
+                                    </tr>
+                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        
+            </div>
+            
+            <div class="footer">
+                <p>This report was automatically generated from trading data files.</p>
+                <p>For questions or additional analysis, please contact the trading team.</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    
