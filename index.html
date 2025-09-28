@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Performance Charts</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #00d4ff, #5b73e8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+        }
+
+        /* Chart Sections */
+        .chart-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .chart-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .chart-section h2 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #00d4ff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .trade-count {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #00d4ff;
+            display: inline-block;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1><i class="fas fa-chart-bar"></i> Trading Performance Charts</h1>
+            <p>September 18-25, 2024</p>
+        </header>
+
+        <!-- Symbol x Signal Chart -->
+        <section class="chart-section">
+            <h2><i class="fas fa-coins"></i> Symbol x Signal Performance</h2>
+            <div class="trade-count">
+                <i class="fas fa-chart-line"></i> Total Trades: 1,247
+            </div>
+            <div class="chart-container">
+                <canvas id="symbolSignalChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Signal x Session Chart -->
+        <section class="chart-section">
+            <h2><i class="fas fa-clock"></i> Signal x Session Performance</h2>
+            <div class="trade-count">
+                <i class="fas fa-chart-line"></i> Total Trades: 1,247
+            </div>
+            <div class="chart-container">
+                <canvas id="signalSessionChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Signal x Buy/Sell Chart -->
+        <section class="chart-section">
+            <h2><i class="fas fa-exchange-alt"></i> Signal x Buy/Sell Performance</h2>
+            <div class="trade-count">
+                <i class="fas fa-chart-line"></i> Total Trades: 1,247
+            </div>
+            <div class="chart-container">
+                <canvas id="signalBuySellChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Signal x Trade Duration Chart -->
+        <section class="chart-section">
+            <h2><i class="fas fa-hourglass-half"></i> Signal x Trade Duration Performance</h2>
+            <div class="trade-count">
+                <i class="fas fa-chart-line"></i> Total Trades: 1,247
+            </div>
+            <div class="chart-container">
+                <canvas id="signalDurationChart"></canvas>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Trading Performance Charts - September 18-25, 2024
+        class TradingCharts {
+            constructor() {
+                this.charts = {};
+                this.init();
+            }
+
+            init() {
+                // Wait for DOM to be fully loaded
+                setTimeout(() => {
+                    this.createSymbolSignalChart();
+                    this.createSignalSessionChart();
+                    this.createSignalBuySellChart();
+                    this.createSignalDurationChart();
+                }, 100);
+            }
+
+            // Symbol x Signal Chart
+            createSymbolSignalChart() {
+                const canvas = document.getElementById('symbolSignalChart');
+                if (!canvas) {
+                    console.error('Canvas element not found: symbolSignalChart');
+                    return;
+                }
+                const ctx = canvas.getContext('2d');
+                
+                this.charts.symbolSignal = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            // Top Performers
+                            'GBPUSD x C2',
+                            'USDCHF x C2', 
+                            'USDJPY x C',
+                            'EURUSD x V2',
+                            'EURUSD x C',
+                            // Bottom Performers
+                            'EURJPY x A',
+                            'GBPAUD x C2',
+                            'EURAUD x C',
+                            'GBPJPY x K',
+                            'AUDJPY x K'
+                        ],
+                        datasets: [{
+                            label: 'P&L ($)',
+                            data: [
+                                // Top Performers
+                                2564.42, 1786.42, 1544.47, 1401.60, 1315.76,
+                                // Bottom Performers
+                                -1853.71, -1515.61, -1308.29, -1170.99, -902.17
+                            ],
+                            backgroundColor: function(context) {
+                                const index = context.dataIndex;
+                                return index < 5 ? '#00ff88' : '#ff4757'; // Green for top, red for bottom
+                            },
+                            borderColor: '#ffffff',
+                            borderWidth: 2,
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#ffffff'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#ffffff',
+                                bodyColor: '#ffffff',
+                                borderColor: '#00d4ff',
+                                borderWidth: 1
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: '#ffffff',
+                                    maxRotation: 45
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: '#ffffff'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Signal x Session Chart
+            createSignalSessionChart() {
+                const canvas = document.getElementById('signalSessionChart');
+                if (!canvas) {
+                    console.error('Canvas element not found: signalSessionChart');
+                    return;
+                }
+                const ctx = canvas.getContext('2d');
+                
+                this.charts.signalSession = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            // Top Performers
+                            'C x Sydney',
+                            'V2 x London',
+                            'C2 x London',
+                            'A x Tokyo',
+                            'C2 x New York',
+                            // Bottom Performers
+                            'V2 x Sydney',
+                            'C x London',
+                            'A x New York',
+                            'A x Sydney',
+                            'K x Sydney'
+                        ],
+                        datasets: [{
+                            label: 'P&L ($)',
+                            data: [
+                                // Top Performers
+                                3500.27, 3045.75, 2884.53, 1162.02, 962.98,
+                                // Bottom Performers
+                                -778.83, -1119.38, -1248.83, -1409.08, -3190.43
+                            ],
+                            backgroundColor: function(context) {
+                                const index = context.dataIndex;
+                                return index < 5 ? '#00ff88' : '#ff4757'; // Green for top, red for bottom
+                            },
+                            borderColor: '#ffffff',
+                            borderWidth: 2,
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#ffffff'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#ffffff',
+                                bodyColor: '#ffffff',
+                                borderColor: '#00d4ff',
+                                borderWidth: 1
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: '#ffffff',
+                                    maxRotation: 45
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: '#ffffff'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Signal x Buy/Sell Chart
+            createSignalBuySellChart() {
+                const canvas = document.getElementById('signalBuySellChart');
+                if (!canvas) {
+                    console.error('Canvas element not found: signalBuySellChart');
+                    return;
+                }
+                const ctx = canvas.getContext('2d');
+                
+                this.charts.signalBuySell = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            // Top Performers
+                            'C2 x Sell',
+                            'C x Sell',
+                            'V2 x Sell',
+                            'A x Buy',
+                            'C x Buy',
+                            // Bottom Performers
+                            'V2 x Buy',
+                            'K x Sell',
+                            'A x Sell',
+                            'C2 x Buy',
+                            'K x Buy'
+                        ],
+                        datasets: [{
+                            label: 'P&L ($)',
+                            data: [
+                                // Top Performers
+                                5801.11, 3640.57, 2637.54, 144.01, -411.07,
+                                // Bottom Performers
+                                -622.72, -867.28, -1409.42, -2141.56, -3149.41
+                            ],
+                            backgroundColor: function(context) {
+                                const index = context.dataIndex;
+                                return index < 5 ? '#00ff88' : '#ff4757'; // Green for top, red for bottom
+                            },
+                            borderColor: '#ffffff',
+                            borderWidth: 2,
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#ffffff'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#ffffff',
+                                bodyColor: '#ffffff',
+                                borderColor: '#00d4ff',
+                                borderWidth: 1
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: '#ffffff',
+                                    maxRotation: 45
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: '#ffffff'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Signal x Trade Duration Chart
+            createSignalDurationChart() {
+                const canvas = document.getElementById('signalDurationChart');
+                if (!canvas) {
+                    console.error('Canvas element not found: signalDurationChart');
+                    return;
+                }
+                const ctx = canvas.getContext('2d');
+                
+                this.charts.signalDuration = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            // Top Performers
+                            'A x >4H',
+                            'V2 x >4H',
+                            'C2 x >4H',
+                            'C x >4H',
+                            'C x <1H',
+                            // Bottom Performers
+                            'K x <1H',
+                            'K x >4H',
+                            'V2 x 1H-4H',
+                            'K x 1H-4H',
+                            'A x 1H-4H'
+                        ],
+                        datasets: [{
+                            label: 'P&L ($)',
+                            data: [
+                                // Top Performers
+                                4371.64, 4043.41, 3760.49, 3456.68, -74.03,
+                                // Bottom Performers
+                                -689.91, -1241.07, -1691.83, -2085.71, -5253.71
+                            ],
+                            backgroundColor: function(context) {
+                                const index = context.dataIndex;
+                                return index < 5 ? '#00ff88' : '#ff4757'; // Green for top, red for bottom
+                            },
+                            borderColor: '#ffffff',
+                            borderWidth: 2,
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#ffffff'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#ffffff',
+                                bodyColor: '#ffffff',
+                                borderColor: '#00d4ff',
+                                borderWidth: 1
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: '#ffffff',
+                                    maxRotation: 45
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: '#ffffff'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initialize the charts when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing charts...');
+            new TradingCharts();
+        });
+
+        // Also try to initialize after a short delay
+        setTimeout(() => {
+            if (typeof TradingCharts !== 'undefined') {
+                console.log('Initializing charts with timeout...');
+                new TradingCharts();
+            }
+        }, 500);
+    </script>
+</body>
+</html>
